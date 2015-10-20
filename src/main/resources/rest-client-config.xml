@@ -17,14 +17,14 @@
 			<list>
 				<bean
 					class="org.springframework.http.converter.StringHttpMessageConverter" />
-				<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+				<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
 				<bean class="org.springframework.http.converter.FormHttpMessageConverter" />
 			</list>
 		</property>
 	</bean>
 
 	<bean id="peopleServiceClient" class="org.people.service.client.PeopleServiceClient">
-		<property name="serviceUrl" value="http://localhost:8080/" />
+		<property name="serviceUrl" value="http://localhost:8080/people-restful" />
 	</bean>
 	
 </beans>

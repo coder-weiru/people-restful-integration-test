@@ -34,7 +34,7 @@ public class PeopleServiceClient extends RestClient {
 	public List<Family> findFamily(String name) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("name", name);
-		String getUrl = getServiceUrl() + "/family/find?name={name}";
+		String getUrl = getServiceUrl() + "/family/find/{name}";
 		ResponseEntity<Family[]> responseEntity = getRestTemplate().exchange(
 				getUrl, HttpMethod.GET, createHttpEntity(null), Family[].class,
 				parameters);
@@ -72,7 +72,7 @@ public class PeopleServiceClient extends RestClient {
 	public List<Person> findPerson(String name) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("name", name);
-		String getUrl = getServiceUrl() + "/person/find?name={name}";
+		String getUrl = getServiceUrl() + "/person/find/{name}";
 		ResponseEntity<Person[]> responseEntity = getRestTemplate().exchange(
 				getUrl, HttpMethod.GET, createHttpEntity(null), Person[].class,
 				parameters);
