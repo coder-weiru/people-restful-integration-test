@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.List;
+import java.util.Random;
 
 import org.junit.After;
 import org.junit.Before;
@@ -48,7 +49,7 @@ public class PeopleServiceRestClientIntegrationTest {
 	@Test
 	public final void testAddFamily() throws Exception {
 		Family family = new Family();
-		family.setName("Unique");
+		family.setName(generateRandomName(5));
 		Family added = peopleServiceClient.addFamily(family);
 
 		assertNotNull(added.getFid());
@@ -58,10 +59,17 @@ public class PeopleServiceRestClientIntegrationTest {
 	@Test
 	public final void testUpdateFamily() throws Exception {
 		Family family = peopleServiceClient.getFamily(1L);
-		family.setName(family.getName() + " (Modified) ");
+		String origName = family.getName();
+		family.setName(origName + " (Modified) ");
 		Family updated = peopleServiceClient.updateFamily(family);
 
 		assertEquals(updated.getName(), family.getName());
+
+		family.setName(origName);
+		Family reverted = peopleServiceClient.updateFamily(family);
+
+		assertEquals(reverted.getName(), family.getName());
+
 	}
 
 	@Test
@@ -80,7 +88,7 @@ public class PeopleServiceRestClientIntegrationTest {
 	@Test
 	public final void testAddPerson() throws Exception {
 		Person person = new Person();
-		person.setName("Definitly Unique");
+		person.setName(generateRandomName(10));
 		Person added = peopleServiceClient.addPerson(person);
 
 		assertNotNull(added.getPid());
@@ -106,11 +114,11 @@ public class PeopleServiceRestClientIntegrationTest {
 	@Test
 	public final void testAddPersonToFamily() throws Exception {
 		Family family = new Family();
-		family.setName("test");
+		family.setName(generateRandomName(5));
 		Family addedFamily = peopleServiceClient.addFamily(family);
 
 		Person person = new Person();
-		person.setName("Person A");
+		person.setName(generateRandomName(10));
 		Person addedPerson = peopleServiceClient.addPerson(person);
 
 		peopleServiceClient.addPersonToFamily(addedPerson.getPid(),
@@ -127,11 +135,11 @@ public class PeopleServiceRestClientIntegrationTest {
 	@Test
 	public final void testRemovePersonFromFamily() throws Exception {
 		Family family = new Family();
-		family.setName("Sample");
+		family.setName(generateRandomName(5));
 		Family addedFamily = peopleServiceClient.addFamily(family);
 
 		Person person = new Person();
-		person.setName("Sample B");
+		person.setName(generateRandomName(10));
 		Person addedPerson = peopleServiceClient.addPerson(person);
 
 		peopleServiceClient.addPersonToFamily(addedPerson.getPid(),
@@ -154,18 +162,27 @@ public class PeopleServiceRestClientIntegrationTest {
 
 	@Test
 	public final void testGetFamilyPeople() throws Exception {
-		Person person = peopleServiceClient.getPerson(1L);
-		String origName = person.getName();
+		List<Person> people = peopleServiceClient.getFamilyPeople(1L);
 
-		person.setName(origName + " (Modified) ");
-		Person updated = peopleServiceClient.updatePerson(person);
+		assertEquals(people.size(), 2);
+		assertEquals(people.get(0).getName(), "Jane Doe");
+		assertEquals(people.get(0).getFamily().getName(), "Doe");
+		assertEquals(people.get(1).getName(), "John Doe");
+		assertEquals(people.get(1).getFamily().getName(), "Doe");
 
-		assertEquals(updated.getName(), person.getName());
+	}
 
-		person.setName(origName);
-		Person reverted = peopleServiceClient.updatePerson(person);
-
-		assertEquals(reverted.getName(), person.getName());
+	public static String generateRandomName(int length) {
+		// Pick from some letters that won't be easily mistaken for each
+		// other. So, for example, omit o O and 0, 1 l and L.
+		String letters = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789+@";
+		Random random = new Random();
+		String s = "";
+		for (int i = 0; i < length; i++) {
+			int index = (int) (random.nextDouble() * letters.length());
+			s += letters.substring(index, index + 1);
+		}
+		return s;
 	}
 
 }

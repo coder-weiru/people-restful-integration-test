@@ -115,7 +115,7 @@ public class PeopleServiceClient extends RestClient {
 	public List<Person> getFamilyPeople(Long fid) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("fid", fid);
-		String getUrl = getServiceUrl() + "/person/{pid}/family/{fid}";
+		String getUrl = getServiceUrl() + "/family/{fid}/people";
 		ResponseEntity<Person[]> responseEntity = getRestTemplate().exchange(
 				getUrl, HttpMethod.GET, createHttpEntity(null), Person[].class,
 				parameters);
