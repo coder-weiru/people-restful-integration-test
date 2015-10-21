@@ -97,7 +97,7 @@ public class PeopleServiceClient extends RestClient {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("pid", pid);
 		parameters.put("fid", fid);
-		String getUrl = getServiceUrl() + "/person/{pid}/family/{fid}";
+		String getUrl = getServiceUrl() + "/add/person/{pid}/family/{fid}";
 		getRestTemplate().exchange(
 				getUrl, HttpMethod.GET, createHttpEntity(null), String.class,
 				parameters);
@@ -107,7 +107,7 @@ public class PeopleServiceClient extends RestClient {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("pid", pid);
 		parameters.put("fid", fid);
-		String getUrl = getServiceUrl() + "/person/{pid}/family/{fid}/delete";
+		String getUrl = getServiceUrl() + "/del/person/{pid}/family/{fid}";
 		getRestTemplate().exchange(getUrl, HttpMethod.GET,
 				createHttpEntity(null), String.class, parameters);
 	}
@@ -115,7 +115,7 @@ public class PeopleServiceClient extends RestClient {
 	public List<Person> getFamilyPeople(Long fid) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("fid", fid);
-		String getUrl = getServiceUrl() + "/family/{fid}/people";
+		String getUrl = getServiceUrl() + "/familyPeople/{fid}";
 		ResponseEntity<Person[]> responseEntity = getRestTemplate().exchange(
 				getUrl, HttpMethod.GET, createHttpEntity(null), Person[].class,
 				parameters);

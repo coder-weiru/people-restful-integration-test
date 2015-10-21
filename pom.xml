@@ -171,6 +171,12 @@
 			<version>${org.springframework-version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -243,10 +249,6 @@
 					<includes>
 						<include>**/*Test.class</include>
 					</includes>
-					<excludes>
-						<exclude>**/Abstract*</exclude>
-						<exclude>**/*IntegrationTest.java</exclude>
-					</excludes>
 					<testFailureIgnore>false</testFailureIgnore>
 				</configuration>
 			</plugin>
