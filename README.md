@@ -2,8 +2,9 @@ people-restful-integration-test
 ===============================
 An integration test project for people-restful service
 
-### How to run integration tests
+### How to run the integration tests
 * Start people-restful REST service
+ 
  Please refer to [people-restful] (https://github.com/coder-weiru/people-restful) document to start the service.
  
 * Using maven, the all tests can be run by ```mvn clean test``` 
