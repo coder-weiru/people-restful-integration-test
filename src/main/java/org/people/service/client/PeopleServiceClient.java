@@ -55,6 +55,11 @@ public class PeopleServiceClient extends RestClient {
 		return family;
 	}
 
+	public void deleteFamily(Long fid) {
+		String deleteUrl = getServiceUrl() + "/delFamily/" + fid;
+		getRestTemplate().delete(deleteUrl);
+	}
+
 	public Person addPerson(Person person) {
 		HttpEntity<Person> httpEntity = createHttpEntity(person);
 		String postUrl = getServiceUrl() + "/person";
@@ -91,6 +96,11 @@ public class PeopleServiceClient extends RestClient {
 		Person person = responseEntity.getBody();
 
 		return person;
+	}
+
+	public void deletePerson(Long pid) {
+		String deleteUrl = getServiceUrl() + "/delPerson/" + pid;
+		getRestTemplate().delete(deleteUrl);
 	}
 
 	public void addPersonToFamily(Long pid, Long fid) {

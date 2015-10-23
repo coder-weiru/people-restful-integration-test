@@ -73,6 +73,22 @@ public class PeopleServiceRestClientIntegrationTest {
 	}
 
 	@Test
+	public final void testDeleteFamily() throws Exception {
+		Family family = new Family();
+		family.setName(generateRandomName(5));
+		Family added = peopleServiceClient.addFamily(family);
+
+		assertNotNull(added.getFid());
+		assertEquals(added.getName(), family.getName());
+
+		peopleServiceClient.deleteFamily(added.getFid());
+
+		Family result = peopleServiceClient.getFamily(added.getFid());
+
+		assertNull(result);
+	}
+
+	@Test
 	public final void testGetPerson() throws Exception {
 		Person person = peopleServiceClient.getPerson(2L);
 		assertEquals(person.getPid().longValue(), 2L);
@@ -109,6 +125,22 @@ public class PeopleServiceRestClientIntegrationTest {
 		Person reverted = peopleServiceClient.updatePerson(person);
 
 		assertEquals(reverted.getName(), person.getName());
+	}
+
+	@Test
+	public final void testDeletePerson() throws Exception {
+		Person person = new Person();
+		person.setName(generateRandomName(10));
+		Person added = peopleServiceClient.addPerson(person);
+
+		assertNotNull(added.getPid());
+		assertEquals(added.getName(), person.getName());
+
+		peopleServiceClient.deletePerson(added.getPid());
+
+		Person result = peopleServiceClient.getPerson(added.getPid());
+
+		assertNull(result);
 	}
 
 	@Test
